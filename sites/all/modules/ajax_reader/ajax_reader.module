@@ -1,19 +1,18 @@
 <?php
 
-function ajax_reader_init() {
-  drupal_add_js('misc/jquery.form.js');
-  drupal_add_library('system', 'drupal.ajax');
-}
+// function ajax_reader_init() {
+//   drupal_add_js('misc/jquery.form.js');
+//   drupal_add_library('system', 'drupal.ajax');
+// }
 
 /**
 * Implements hook_menu().
 */
 function ajax_reader_menu(){
   // A menu callback is required when using ajax outside of the Form API.
-  $items['ajax-reader/%/%'] = array(
+  $items['ajax-reader'] = array(
     'page callback' => 'ajax_link_response',
     'access callback' => 'user_access',
-    'page arguments' => array(1, 2),
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );

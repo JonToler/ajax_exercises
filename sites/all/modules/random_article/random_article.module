@@ -1,0 +1,42 @@
+<?php
+function random_article_init() {
+  drupal_add_js('misc/jquery.form.js');
+  drupal_add_library('system', 'drupal.ajax');
+}
+
+  function random_article($js){
+    $node_type = "article";
+
+    $result = db_query("SELECT nid FROM node WHERE type = :nodeType", array(':nodeType' =>$node_type));
+
+    $nids = array();
+    foreach ($result as $obj) {
+      $nids[] = $obj->nid;
+    }
+    $length = count($nids);
+    $random_id = $nids[rand(0, $length-1)];
+
+    if ($js == 'nojs') {
+      drupal_goto('node/' . $random_id);
+    }else {
+      $node = node_load($random_id);
+      $build = node_view($node);
+      $html = render($build);
+      $commands = array();
+      $commands[] = ajax_command_html('#random_article-display', $html);
+
+      print ajax_render($commands);
+      exit;
+    }
+
+  }
+
+  function random_article_menu() {
+    $items['path-to-random_article_ajax/%'] = array(
+      'access arguments' => array ('access content'),
+      'page callback' => 'random_article',
+      'page arguments' => array(1),
+      'type' => MENU_CALLBACK,
+    );
+    return $items;
+  }

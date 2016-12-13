@@ -1,0 +1,4 @@
+name = random article
+description = gives a random article
+core = 7.x
+files[] = random_article.module
